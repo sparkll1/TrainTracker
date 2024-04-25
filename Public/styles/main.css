@@ -1,0 +1,43 @@
+/* Color
+#606c38
+#283618
+#fefae0
+#dda15e
+#bc6c25 */
+
+
+body {
+    background: #FEFAE0;
+  }
+  .button-group, .container {
+    text-align: center;
+    padding: 2vw;
+  }
+  #displayEntries {
+    margin: 0 15vw;
+    text-align: left;
+  }
+  button {
+    font-size: 2em;
+    padding: 10px 20px;
+    margin: 5px;
+    color: black;
+    background-color: #dda15e;
+    border-radius: 20px;
+}
+  #counterText {
+    color: black;
+    font: 3em Consolas, Arial, sans-serif;
+    text-align: center;
+  }
+  label {
+    font: 3em Consolas, Arial, sans-serif;
+    color: #606c38;
+  }
+  input {
+    font-size: 2em;
+  }
+  .greeting {
+    color:#283618;
+  }
+}
