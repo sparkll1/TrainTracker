@@ -40,14 +40,16 @@ app.get("/api/", function(req, res){
 //create
 //put the client data to our db json
 app.post("/api/", function(req, res){
-    let name = req.body.name;
-    let counter = req.body.count;
-    data.push({"name" : name, "count": counter});
+    let station = req.body.station;
+    let platform = req.body.platform;
+    let time = req.body.time;
+    let desc = req.body.desc;
+
+    data.push({"station" : station, "platform": platform, "time": time, "desc": desc});
     saveToServer(data);
     res.send("post successful");
     res.end();
 } );
-
 
 
 //read one
@@ -58,10 +60,12 @@ app.get("/api/id/:id", function(req, res){
     res.end();
 }).put("/api/id/:id", function(req, res){
     let id = parseInt(req.params.id);
-    let name = req.body.name;
-    let counter = req.body.count;
+    let station = req.body.station;
+    let platform = req.body.platform;
+    let time = req.body.time;
+    let desc = req.body.desc;
 
-    data[id] = ({"name" : name, "count": counter});
+    data[id] = ({"station" : station, "platform": platform, "time": time, "desc": desc});
     saveToServer(data);
     res.send("put successful");
     res.end();
