@@ -1,1 +1,12 @@
-[{"station":"Forest Park","platform":"OHareBound", "time": "13:52", "desc": "delayed"},{"station":"Jefferson Park","platform":"OHareBound", "time":"16:07", "desc":"early"},{"station":"Cicero","platform":"ForestParkBound", "time":"03:02", "desc":"delayed"}]
+[{"station":"Forest Park",
+"platform":"OHareBound", 
+"time": "13:52", 
+"desc": "delayed"},
+{"station":"Jefferson Park",
+"platform":"OHareBound",
+ "time":"16:07", 
+ "desc":"early"},
+ {"station":"Cicero",
+ "platform":"ForestParkBound", 
+ "time":"03:02",
+  "desc":"delayed"}]
