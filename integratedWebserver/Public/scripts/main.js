@@ -7,28 +7,49 @@ var platform = "";
 var time = "";
 var desc = "";
 
+MainPageController = class {
+    constructor(){
+
+        
+    document.querySelector("#addReport").onclick = (event) => {
+        window.location.href = "http://localhost:3000/static/addReport.html";
+        console.log("clicked");
+        };
+    
+        document.querySelector("#viewReport").onclick = (event) => {
+            window.location.href = "http://localhost:3000/static/viewReport.html";
+            loadEntries();
+            };
+
+    }
+}
+
+AddReportPageController = class {
+    constructor(){
+        document.querySelector("#submitReport").onclick = (event) => {
+            createReport();
+            window.location.href = "http://localhost:3000/static/viewReport.html";
+            };   
+    
+        document.querySelector("#gomainButton").onclick = (event) => {
+            window.location.href = "http://localhost:3000/static/";
+            console.log("clicked");
+        };   
+
+    }
+}
+
 function main(){
     console.log("Ready");
   //  updateView();
   loadEntries();
 
-    document.querySelector("#addReport").onclick = (event) => {
-    window.location.href = "http://localhost:3000/static/addReport.html";
-    };
-
-    document.querySelector("#viewReport").onclick = (event) => {
-        window.location.href = "http://localhost:3000/static/viewReport.html";
-        loadEntries();
-        };
-
-   document.querySelector("#submitReport").onclick = (event) => {
-        window.location.href = "http://localhost:3000/static/viewReport.html";
-        loadEntries();
-        };   
-
-    document.querySelector("#gomainButton").onclick = (event) => {
-        window.history.back();
-    };           
+  if(document.querySelector("#MainPage")){
+    new MainPageController();
+}
+if(document.querySelector("#AddReportPage")){
+    new AddReportPageController();
+}
 
         
 
@@ -53,9 +74,11 @@ function main(){
 function loadEntries(){
     //document.querySelector("#displayReports").innerHTML = null;
     let allEntries = fetch(apiURL)
+
     .then(response => response.json())
     .then(data =>{ 
         for(let i=0; i< data.length; i++){
+            
             document.querySelector("#displayReports").innerHTML +=
 
             // `<button id="id${i}"onclick = loadEntry(${i}); >Select Entry</button>
@@ -152,7 +175,7 @@ function createReport(){
         body: JSON.stringify(data)
     })
     .then(data =>{ 
-        window.location.href = "http://localhost:3000/static.html";
+        // window.location.href = "http://localhost:3000/static.html";
     //    loadEntries();
     })
     .catch((err) =>{
