@@ -1,4 +1,5 @@
 const apiURL = "http://localhost:3000/api/";
+const apiUsersURL = "http://localhost:3000/api/users";
 var selectedId = "";
 var editEntryMode = false;
 
@@ -16,13 +17,33 @@ MainPageController = class {
         console.log("clicked");
         };
     
-        document.querySelector("#viewReport").onclick = (event) => {
-            window.location.href = "http://localhost:3000/static/viewReport.html";
-            loadEntries();
-            };
-
+    document.querySelector("#viewReport").onclick = (event) => {
+        window.location.href = "http://localhost:3000/static/viewReport.html";
+        loadEntries();
+        };
+    
+    document.querySelector("#goSignUp").onclick = (event) => {
+        window.location.href = "http://localhost:3000/static/Signup.html";
+    };   
     }
 }
+
+SignUpPageController = class {
+    constructor(){
+
+    document.querySelector("#SignUpButton").onclick = (event) => {
+        createUser();
+        window.location.href = "http://localhost:3000/static/";
+        };
+    
+    document.querySelector("#goMainButton1").onclick = (event) => {
+        window.location.href = "http://localhost:3000/static/";
+        console.log("go main");
+    };   
+    }
+}
+
+
 
 AddReportPageController = class {
     constructor(){
@@ -39,20 +60,23 @@ AddReportPageController = class {
     }
 }
 
+
+
 function main(){
     console.log("Ready");
   //  updateView();
   loadEntries();
 
-  if(document.querySelector("#MainPage")){
+if(document.querySelector("#MainPage")){
     new MainPageController();
 }
 if(document.querySelector("#AddReportPage")){
     new AddReportPageController();
 }
-
+if(document.querySelector("#SignUpPage")){
+    new SignUpPageController();
+}
         
-
 }
 
 
@@ -161,26 +185,91 @@ function loadEntry(id){
 
 
 
-function createReport(){
+async function createReport(){
     let station = document.querySelector("#inputStation").value;
     let platform = document.querySelector("#inputPlatform").value;
     let time = document.querySelector("#inputTime").value;
     let desc = document.querySelector("#inputDescription").value;
 
-    let data = {"station" : station, "platform": platform, "time": time, "desc": desc};
+    let errorCheck = true;
 
-    let entry = fetch(apiURL,{
-        method: "POST",
-        headers: { "Content-Type": 'application/json'},
-        body: JSON.stringify(data)
+    const options = {
+        method: "PUT",
+        headers: {
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+            "station": station,
+            "platform": platform,
+            "time":time,
+            "desc":desc
+        }),
+    };
+
+    console.log(apiURL);
+
+    await fetch(apiURL + "addReport", options)
+        .then(response => response.json())
+        .then(data => {
+            if (data.err == 0) {} 
+            else {
+                errorCheck = false;
+                alert(data.err);
+            }
+        })
+        .catch(error => console.error(error));
+
+    return errorCheck;
+}
+
+
+async function createUser(){
+    let name = document.querySelector("#exampleNickname1").value;
+    let email = document.querySelector("#exampleInputEmail1").value;
+    let password = document.querySelector("#exampleInputPassword1").value;
+
+
+    let errorCheck = true;
+
+    const options = {
+        method: "PUT",
+        headers: {
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+            "name": name,
+            "email": email,
+            "password":password
+        }),
+    };
+
+    console.log(apiUsersURL);
+    
+    await fetch(apiUsersURL, options)
+    .then(response => response.json())
+    .then(data => {
+        if (data.err == 0) {} 
+        else {
+            errorCheck = false;
+            alert(data.err);
+        }
     })
-    .then(data =>{ 
-        // window.location.href = "http://localhost:3000/static.html";
-    //    loadEntries();
-    })
-    .catch((err) =>{
-        console.log(err);
-    });
+    .catch(error => console.error(error));
+
+return errorCheck;
+
+    await fetch(apiUsersURL + "addUser", options)
+        .then(response => response.json())
+        .then(data => {
+            if (data.err == 0) {} 
+            else {
+                errorCheck = false;
+                alert(data.err);
+            }
+        })
+        .catch(error => console.error(error));
+
+    return errorCheck;
 }
 
 main();
