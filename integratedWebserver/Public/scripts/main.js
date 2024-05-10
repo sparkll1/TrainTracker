@@ -209,12 +209,13 @@ async function createReport(){
 
 
 async function createUser(){
+    console.log("creating user");
+    
     let name = document.querySelector("#exampleNickname1").value;
     let email = document.querySelector("#exampleInputEmail1").value;
     let password = document.querySelector("#exampleInputPassword1").value;
 
 
-<<<<<<< Updated upstream
     let errorCheck = true;
 
     const options = {
@@ -229,40 +230,19 @@ async function createUser(){
         }),
     };
 
-    console.log(apiUsersURL);
-    
-    await fetch(apiUsersURL, options)
+    await fetch(apiURL + "addUser", options)
     .then(response => response.json())
     .then(data => {
         if (data.err == 0) {} 
         else {
             errorCheck = false;
             alert(data.err);
-=======
-        if (response.ok) {
-            // Request was successful
-        } else {
-            // Request failed
-            console.error("Failed to create user:", response.statusText);
->>>>>>> Stashed changes
         }
     })
     .catch(error => console.error(error));
 
 return errorCheck;
 
-    await fetch(apiUsersURL + "addUser", options)
-        .then(response => response.json())
-        .then(data => {
-            if (data.err == 0) {} 
-            else {
-                errorCheck = false;
-                alert(data.err);
-            }
-        })
-        .catch(error => console.error(error));
-
-    return errorCheck;
 }
 
 main();
