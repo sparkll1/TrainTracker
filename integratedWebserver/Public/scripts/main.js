@@ -80,21 +80,6 @@ if(document.querySelector("#SignUpPage")){
 }
 
 
-
-//from full stack app followalong
-// function updateView(){
-//     document.querySelector("#counterText").innerHTML = `Count = ${counter}`;
-//     if(editEntryMode){
-//         document.querySelector("#createButton").disabled = true;
-//         document.querySelector("#updateButton").disabled = false;
-//         document.querySelector("#deleteButton").disabled = false;
-//     }else{
-//         document.querySelector("#createButton").disabled = false;
-//         document.querySelector("#updateButton").disabled = true;
-//         document.querySelector("#deleteButton").disabled = true;
-//     }
-// }
-
 function loadEntries(){
     //document.querySelector("#displayReports").innerHTML = null;
     let allEntries = fetch(apiURL)
@@ -229,6 +214,7 @@ async function createUser(){
     let password = document.querySelector("#exampleInputPassword1").value;
 
 
+<<<<<<< Updated upstream
     let errorCheck = true;
 
     const options = {
@@ -252,6 +238,13 @@ async function createUser(){
         else {
             errorCheck = false;
             alert(data.err);
+=======
+        if (response.ok) {
+            // Request was successful
+        } else {
+            // Request failed
+            console.error("Failed to create user:", response.statusText);
+>>>>>>> Stashed changes
         }
     })
     .catch(error => console.error(error));
