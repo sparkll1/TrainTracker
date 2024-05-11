@@ -8,11 +8,13 @@ var platform = "";
 var time = "";
 var desc = "";
 
-var usernickname;
+var usernickname ="";
 var userID;
-
+var tempnick;
+var tempID;
 MainPageController = class {
     constructor(){
+
 
         
     document.querySelector("#addReport").onclick = (event) => {
@@ -32,11 +34,10 @@ MainPageController = class {
         window.location.href = "http://localhost:3000/static/LogIn.html";
     };   
 
-//    document.querySelector("#nicknameTest").innerHTML = usernickname;
-//    console.log('nickname: ' , usernickname);
-//    console.log(userID);
-
+    document.querySelector("#nicknameGreeting").innerHTML = localStorage.getItem("userNickname");
+    console.log('usernickname in static is ', localStorage.getItem("userNickname"));
     }
+    
 }
 
 SignUpPageController = class {
@@ -69,6 +70,8 @@ LogInPageController = class {
         .catch(error => {
 
         });
+
+
     };
     
     document.querySelector("#goMainButton1").onclick = (event) => {
@@ -283,11 +286,19 @@ async function checkUser() {
             console.log('Error: ', data.err);
             document.getElementById('errorAlert').innerText = data.err;
             document.getElementById('errorAlert').style.display = 'block';
+
+            localStorage.setItem('userNickname', 'Guest');
+            localStorage.setItem('userID', '0');
         } else {
             console.log('Here is your nickname:', data.outputName);
             console.log('Here is your ID:', data.outputID);
             usernickname = data.outputName;
             userID = data.outputID;
+
+            localStorage.setItem('userNickname', data.outputName);
+            localStorage.setItem('userID', data.outputID);
+
+
             window.location.href = "http://localhost:3000/static/";
         }
     } catch (error) {
