@@ -128,6 +128,36 @@ app.get("/api/users", function(req, res){
     res.end();
 } );
 
+app.put("/api/checkLogin", function(req, res) {
+    let email = req.body.email;
+    let password = req.body.password;
+    console.log("email: ", email);
+
+    var connection = new sql.ConnectionPool(config);
+    connection.connect().then(function() {
+        var request = new sql.Request(connection);
+        request.input("email", email)
+            .input("password", password)
+            .output("outputName", sql.VarChar(50))
+            .output("outputID", sql.Int)
+            .execute("CheckLogin").then(function(result) {
+                res.status(200).json({
+                    "outputName": result.output.outputName,
+                    "outputID": result.output.outputID
+                });
+
+                connection.close(); // Close connection after sending response
+            }).catch(function(err) {
+                console.error("SQL EXECUTION ERROR: " + err);
+                res.status(200).json({
+                    "err": err.message
+                });
+                connection.close(); // Close connection after sending response
+            });
+    }).catch(function(err) {
+        console.log("CONNECTION ERROR: " + err);
+    });
+});
 
 
 
@@ -140,19 +170,6 @@ app.post("/api/", function(req, res){
     data.push({"station" : station, "platform": platform, "time": time, "desc": desc});
     saveToServer(data);
     res.send("post successful");
-    res.end();
-});
-
-
-app.post("/api/users", function(req, res){
-  
-    let name = req.body.name;
-    let email = req.body.email;
-    let password = req.body.password;
-
-    userdata.push({ "name": name, "email": email, "password": password });
-    saveUsersToFile(userdata);
-    res.send("User info added successfully");
     res.end();
 });
 

@@ -8,6 +8,9 @@ var platform = "";
 var time = "";
 var desc = "";
 
+var usernickname;
+var userID;
+
 MainPageController = class {
     constructor(){
 
@@ -25,6 +28,14 @@ MainPageController = class {
     document.querySelector("#goSignUp").onclick = (event) => {
         window.location.href = "http://localhost:3000/static/Signup.html";
     };   
+    document.querySelector("#goLogIn").onclick = (event) => {
+        window.location.href = "http://localhost:3000/static/LogIn.html";
+    };   
+
+//    document.querySelector("#nicknameTest").innerHTML = usernickname;
+//    console.log('nickname: ' , usernickname);
+//    console.log(userID);
+
     }
 }
 
@@ -42,6 +53,31 @@ SignUpPageController = class {
     };   
     }
 }
+
+LogInPageController = class {
+    constructor(){
+    document.querySelector("#LogInButton").onclick = (event) => {
+        
+        checkUser()
+        .then(() => {
+            if(data.error){
+
+            }else{
+             //   window.location.href = "http://localhost:3000/static/";
+            }
+        })
+        .catch(error => {
+
+        });
+    };
+    
+    document.querySelector("#goMainButton1").onclick = (event) => {
+        window.location.href = "http://localhost:3000/static/";
+        console.log("go main");
+    };   
+    }
+}
+
 
 
 
@@ -65,6 +101,7 @@ AddReportPageController = class {
 function main(){
     console.log("Ready");
   //  updateView();
+  
   loadEntries();
 
 if(document.querySelector("#MainPage")){
@@ -75,6 +112,9 @@ if(document.querySelector("#AddReportPage")){
 }
 if(document.querySelector("#SignUpPage")){
     new SignUpPageController();
+}
+if(document.querySelector("#LogInPage")){
+    new LogInPageController();
 }
         
 }
@@ -87,12 +127,10 @@ function loadEntries(){
     .then(response => response.json())
     .then(data =>{ 
         for(let i=0; i< data.length; i++){
-            
-            document.querySelector("#displayReports").innerHTML +=
 
-            // `<button id="id${i}"onclick = loadEntry(${i}); >Select Entry</button>
-            // <label>${data[i].name}</label>&nbsp;
-            // <label>${data[i].count}</label><br>`;
+            const displayReportsElement = document.querySelector("#displayReports");
+            if (displayReportsElement) {
+                displayReportsElement.innerHTML +=
 
                 `<li class="list-group-item d-flex justify-content-between align-items-start">
                 <div class="ms-2 me-auto">
@@ -114,6 +152,10 @@ function loadEntries(){
                 &nbsp;
 
                 </li>`;
+            } else {
+            // to prevent null error console.error("Element with ID 'displayReports' not found");
+            }
+            
 
         }
     });
@@ -133,41 +175,6 @@ function loadEntry(id){
      //   updateView();
     })
 }
-
-// function deleteEntry(){
-//     fetch (apiURL + "id/" + selectedId,
-//     {method : "DELETE"})
-//     .then (data => {
-//         editEntryMode = false;
-//         document.querySelector("#inputName").value = "";
-//         counter = 0;
-//         updateView();
-//         loadEntries();
-//     }).catch(err => {
-//         console.log(err);
-//     });
-// }
-
-// function updateEntry(){
-//     let name = document.querySelector("#inputName").value;
-//     let data = { "name": name, "count": counter};
-//     fetch (apiURL + "id/" + selectedId,
-//         {method : "PUT",
-//         headers: {"Content-Type": 'application/json'},
-//         body: JSON.stringify(data)
-//         },
-//     )
-//     .then (data => {
-//         editEntryMode = false;
-//         document.querySelector("#inputName").value = "";
-//         counter = 0;
-//         updateView();
-//         loadEntries();
-//     }).catch(err => {
-//         console.log(err);
-//     });
-// }
-
 
 
 async function createReport(){
@@ -208,6 +215,8 @@ async function createReport(){
 }
 
 
+
+
 async function createUser(){
     console.log("creating user");
     
@@ -242,7 +251,49 @@ async function createUser(){
     .catch(error => console.error(error));
 
 return errorCheck;
-
 }
+
+async function checkUser() {
+    console.log("checking user");
+
+    let email = document.querySelector("#LoginInputEmail").value;
+    let password = document.querySelector("#LoginInputPassword").value;
+
+    const options = {
+        method: "PUT",
+        headers: {
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+            "email": email,
+            "password": password
+        }),
+    };
+
+    try {
+        let response = await fetch(apiURL + "checkLogin", options);
+        if (!response.ok) {
+            // Handle non-200 status codes
+            throw new Error('Server response was not ok');
+        }
+
+        let data = await response.json();
+        
+        if (data.err) {
+            console.log('Error: ', data.err);
+            document.getElementById('errorAlert').innerText = data.err;
+            document.getElementById('errorAlert').style.display = 'block';
+        } else {
+            console.log('Here is your nickname:', data.outputName);
+            console.log('Here is your ID:', data.outputID);
+            usernickname = data.outputName;
+            userID = data.outputID;
+            window.location.href = "http://localhost:3000/static/";
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
 
 main();
