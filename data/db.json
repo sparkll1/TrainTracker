@@ -1,4 +1,1 @@
-[{"nickname":"Forest Park","platform":"OHareBound","time":"13:52","desc":"delayed"},
-{"station":"Jefferson Park","platform":"OHareBound","time":"16:07","desc":"early"},
-{"station":"Cicero","platform":"ForestParkBound","time":"03:02","desc":"delayed"},
-{"station":"test station","platform":"","time":"15:02","desc":"Delayed"}]
+[{"station":"Forest Park","platform":"OHareBound","time":"13:52","desc":"delayed"},{"station":"Jefferson Park","platform":"OHareBound","time":"16:07","desc":"early"},{"station":"Cicero","platform":"ForestParkBound","time":"03:02","desc":"delayed"},{"station":"test station","platform":"","time":"15:02","desc":"Delayed"}]
