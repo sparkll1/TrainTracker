@@ -76,8 +76,29 @@ app.put("/api/addReport", function(req, res) {
         console.log("CONNECTION ERROR: " + err);
     });
 })
-
-
+app.put("/api/deleteAccount", function(req, res) {
+    var connection = new sql.ConnectionPool(config);
+    connection.connect().then(function () {
+        var request = new sql.Request(connection);
+        request.input("userID", req.body.userId)
+            .input("userEmail", req.body.userEmail)
+            .execute("DeleteUser").then(function(result) {
+                res.status(200).json({});
+                connection.close(); // Close connection after sending response
+            }).catch(function(err) {
+                console.error("SQL EXECUTION ERROR: " + err);
+                res.status(200).json({
+                    "err": err.message
+                });
+                connection.close(); // Close connection after sending response
+            });
+    }).catch(function(err) {
+        console.log("CONNECTION ERROR: " + err);
+        res.status(500).json({
+            "err": "Server error"
+        });
+    });
+});
 // Inside your '/api/users' route handler
 
 
@@ -111,7 +132,6 @@ app.put("/api/addUser", function(req, res){
 
 
 });
-
 
 
 
@@ -201,9 +221,6 @@ app.get("/api/id/:id", function(req, res){
 
 //read user info
 
-
-
-
 app.put("/api/users/:id", function(req, res){
     let id = parseInt(req.params.id);
     let users = readUsersFromFile();
@@ -215,6 +232,7 @@ app.put("/api/users/:id", function(req, res){
     res.send("User info updated successfully");
     res.end();
 });
+
 
 
 app.listen(3000);

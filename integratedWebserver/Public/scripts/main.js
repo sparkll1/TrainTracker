@@ -10,12 +10,10 @@ var desc = "";
 
 var usernickname ="";
 var userID;
-var tempnick;
-var tempID;
+
+
 MainPageController = class {
     constructor(){
-
-
         
     document.querySelector("#addReport").onclick = (event) => {
         window.location.href = "http://localhost:3000/static/addReport.html";
@@ -33,9 +31,15 @@ MainPageController = class {
     document.querySelector("#goLogIn").onclick = (event) => {
         window.location.href = "http://localhost:3000/static/LogIn.html";
     };   
+    document.querySelector("#goDelete").onclick = (event) => {
+        window.location.href = "http://localhost:3000/static/DeleteAccount.html";
+    };   
 
-    document.querySelector("#nicknameGreeting").innerHTML = localStorage.getItem("userNickname");
-    console.log('usernickname in static is ', localStorage.getItem("userNickname"));
+    
+    if(localStorage.getItem("userNickname") ==""){
+        document.querySelector("#nicknameGreeting").innerHTML = "Guest";
+    }
+    //console.log('usernickname is ', localStorage.getItem("userNickname"));
     }
     
 }
@@ -81,7 +85,22 @@ LogInPageController = class {
     }
 }
 
+DeleteAccountPageController = class {
+    constructor(){
 
+        
+    console.log("your id is : ", localStorage.getItem("userID"))
+    document.querySelector("#DeleteAccountButton").onclick = (event) => {
+        deleteUser();
+        window.location.href = "http://localhost:3000/static/";
+        };
+
+    document.querySelector("#goMainButton1").onclick = (event) => {
+        window.location.href = "http://localhost:3000/static/";
+        console.log("go main");
+    };   
+    }
+}
 
 
 AddReportPageController = class {
@@ -118,6 +137,9 @@ if(document.querySelector("#SignUpPage")){
 }
 if(document.querySelector("#LogInPage")){
     new LogInPageController();
+}
+if(document.querySelector("#DeleteAccountPage")){
+    new DeleteAccountPageController();
 }
         
 }
@@ -292,12 +314,10 @@ async function checkUser() {
         } else {
             console.log('Here is your nickname:', data.outputName);
             console.log('Here is your ID:', data.outputID);
-            usernickname = data.outputName;
-            userID = data.outputID;
 
             localStorage.setItem('userNickname', data.outputName);
+            localStorage.setItem('userEmail', email);
             localStorage.setItem('userID', data.outputID);
-
 
             window.location.href = "http://localhost:3000/static/";
         }
@@ -305,6 +325,54 @@ async function checkUser() {
         throw error;
     }
 }
+
+async function deleteUser() {
+    console.log("deleting user");
+
+    let ID = localStorage.getItem("userID");
+    let Email = localStorage.getItem("userEmail");
+
+    const options = {
+        method: "PUT",
+        headers: {
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+            "userId": ID,
+            "userEmail": Email
+        }),
+    };
+
+    try {
+        console.log("before fetch request");
+        let response = await fetch(apiURL + "deleteAccount", options);
+        console.log("After fetch request");
+        if (!response.ok) {
+            // Handle non-200 status codes
+            throw new Error('Server response was not ok');
+        }
+
+        let data = await response.json();
+        console.log("data from mainjs : ", data)
+        
+        if (data.err) {
+            console.log('Error: ', data.err);
+            document.getElementById('errorAlert').innerText = data.err;
+            document.getElementById('errorAlert').style.display = 'block';
+        } else {
+        //the account is deleted
+            localStorage.setItem('userNickname', 'Guest');
+            localStorage.setItem('userID', '0');
+            localStorage.setItem('userEmail', '@')
+            console.log("now your nickname is : ", localStorage.getItem('userNickname'))
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
+
+
 
 
 main();
