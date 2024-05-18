@@ -54,6 +54,9 @@ body {
   color: white;
   background-color: navy;
 }
+#goDelete {
+  visibility: visible; /* Ensure the button is visible by default */
+}
 #counterText {
   color: black;
   font: 3em Consolas, Arial, sans-serif;

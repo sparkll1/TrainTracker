@@ -49,6 +49,7 @@ MainPageController = class {
             window.location.href = "http://localhost:3000/static/myProfile.html";
         };   
         document.querySelector("#nicknameGreeting").innerHTML = localStorage.getItem("userNickname");
+        updateView();
     
         
     }
@@ -258,14 +259,17 @@ function main(){
 // //from full stack app followalong
 function updateView(){
     //logged in, you cant see login
-    if(logInMode){
-
-        document.querySelector("#goLogIn").disabled = true;
-    //not logged in, you can see login
-    }else{
-
-        document.querySelector("#goLogIn").disabled = true;
-    }
+    // console.log(localStorage.getItem('logInMode'));
+    //  if(document.querySelector("#MainPage")){
+    //     if(localStorage.getItem('logInMode') == true){
+    //         document.querySelector("#goLogIn").disabled = true;
+    //         document.querySelector("#main-addReport").disabled = false;
+    //     //not logged in, you can see login
+    //     }if(!localStorage.getItem('logInMode') == false){
+    //         document.querySelector("#goLogIn").disabled = false;
+    //         document.querySelector("#main-addReport").disabled = true;
+    //     }
+    // }
 }
 
 function loadEntries(){
@@ -530,11 +534,12 @@ async function checkUser() {
             localStorage.setItem('userNickname', data.outputName);
             localStorage.setItem('userID', data.outputID);
             localStorage.setItem('userEmail', email);
-            logInMode = true;
-            updateView();
-
+            localStorage.setItem('logInMode', true);
+          
+        
 
             window.location.href = "http://localhost:3000/static/";
+            updateView();
         }
     } catch (error) {
         throw error;
@@ -579,9 +584,11 @@ async function deleteUser() {
             localStorage.setItem('userID', '0');
             localStorage.setItem('userEmail', '@');
             console.log("now your nickname is : ", localStorage.getItem('userNickname'));
+            localStorage.setItem('logInMode', false);
             logInMode = false;
-            updateView();
+            //updateView();
             window.location.href = "http://localhost:3000/static/";
+            updateView()
         }
     } catch (error) {
         throw error;
