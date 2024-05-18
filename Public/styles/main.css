@@ -1,0 +1,108 @@
+/* Color
+#606c38
+#283618
+#fefae0
+#dda15e
+#bc6c25 */
+
+.navbar,
+.navbar a {
+    background-color: navy;
+    color: white !important;
+}
+
+#menuButton, #logOutButton {
+  color: white;
+}
+
+#AddReportPage, #ViewReportPage, #FindTrainsPage {
+  padding-top: 70px;
+}
+
+#MainPage {
+  padding-top: 100px;
+}
+
+#main-container {
+  border: 2px solid black; 
+  border-radius: 0.75rem; 
+  background-color: lightgray;
+}
+
+body {
+  background: #FEFAE0;
+}
+
+.form-label {
+  text-align: left;
+  padding: 20px;
+  font-size: 40px;
+}
+
+.button-group, .container {
+
+  padding: 2vw;
+}
+#displayEntries {
+  margin: 0 15vw;
+  text-align: left;
+}
+.main-btn {
+  width: 100%;
+}
+#main-searchTrains, #main-searchStations, #main-addReport, #main-viewReports, #main-userInfo, #goSignUp, #goLogIn, #main-import {
+  color: white;
+  background-color: navy;
+}
+#goDelete {
+  visibility: visible; /* Ensure the button is visible by default */
+}
+#counterText {
+  color: black;
+  font: 3em Consolas, Arial, sans-serif;
+  text-align: center;
+}
+label {
+  font: 3em Consolas, Arial, sans-serif;
+  color: #606c38;
+}
+input {
+  font-size: 2em;
+}
+.greeting {
+  padding: 10px;
+  color:#283618;
+}
+#submitReport {
+  color: white;
+  background-color: navy;
+}
+#cancelReport {
+  color: white;
+  background-color: navy;
+}
+#searchTrains {
+  color: white;
+  background-color: navy;
+}
+.reportButtons {
+  padding: 20px 40px;
+}
+.form-row {
+  display: flex;  
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 10px; 
+}
+
+.train-container {
+  border: 2px solid #ccc; /* Thicker border */
+  border-radius: 0.75rem; /* Rounded corners */
+  padding: 1rem;
+  min-height: 200px; /* Ensures the container takes up space even when empty */
+}
+
+#trainMess {
+  padding-top: 60px;
+}
+
