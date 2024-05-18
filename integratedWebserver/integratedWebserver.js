@@ -4,11 +4,22 @@ var sql = require("mssql");
 require("dotenv").config();
 let data=[];
 
+// const config = {
+//     user: process.env.serverUsername,
+//     password: process.env.serverPassword,
+//     server: process.env.serverName,
+//     database: process.env.databaseName,
+//     encrypt: true,
+//     trustedConnection: true,
+//     trustServerCertificate: true
+// }
+
+
 const config = {
-    user: process.env.serverUsername,
-    password: process.env.serverPassword,
-    server: process.env.serverName,
-    database: process.env.databaseName,
+    user: "parks13",
+    password: "Password123",
+    server: "golem.csse.rose-hulman.edu",
+    database: "CtaL-TrainTrackerDB",
     encrypt: true,
     trustedConnection: true,
     trustServerCertificate: true
